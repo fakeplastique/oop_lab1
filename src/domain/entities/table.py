@@ -135,7 +135,7 @@ class Table:
     def invalidate_all(self) -> None:
         """Інвалідує всі клітинки (для перерахунку)."""
         for cell in self._cells.values():
-            cell.invalidate()
+            cell.invalidate_value()
 
     def _validate_indices(self, row: int, col: int) -> None:
         """

@@ -24,7 +24,6 @@ def main():
 
     app = QApplication(sys.argv)
     app.setApplicationName("Python Excel")
-    app.setOrganizationName("KNU")
 
     app.setStyle("Fusion")
     logger.info("Стиль Fusion встановлено")

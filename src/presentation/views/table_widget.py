@@ -212,6 +212,9 @@ class TableWidget(QTableWidget):
         for row in range(rows):
             self.setRowHeight(row, 40)
 
+        # Recalculate all cells to detect errors from deleted cell references
+        self.table_service.calculate_all()
+
         self.refresh_display()
 
     def clear_table(self) -> None:

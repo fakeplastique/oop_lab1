@@ -85,6 +85,12 @@ class Cell:
         self._error = None
         self._is_dirty = True
 
+    def invalidate_value(self) -> None:
+        """Інвалідує тільки обчислене значення, зберігаючи AST."""
+        self._cached_value = None
+        self._error = None
+        self._is_dirty = True
+
     def is_empty(self) -> bool:
         """Чи є клітинка порожньою."""
         return not self._expression.strip()
