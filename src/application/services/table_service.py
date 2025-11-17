@@ -65,16 +65,14 @@ class TableService:
             except ValueError:
                 raise Exception(f"Клітинка {reference} містить не числове значення: {cell.expression}")
 
-        # Якщо це формула, перевіряємо чи вона обчислена
+        # Якщо це формула, обчислюємо її AST
         if cell.is_formula():
-            # Якщо клітинка ще не обчислена, обчислюємо її
-            if cell.is_dirty:
-                self._calculate_cell_by_reference(reference)
+            if not cell.ast:
+                raise Exception(f"Клітинка {reference} не була розпарсена")
 
-            if cell.cached_value is None:
-                raise Exception(f"Клітинка {reference} не має значення")
+            value = cell.ast.accept(self._evaluator)
 
-            return cell.cached_value
+            return value
 
         raise Exception(f"Невідомий тип вмісту клітинки {reference}")
 

@@ -129,8 +129,11 @@ class ExpressionEvaluator(ASTVisitor):
         elif node.operator == '^':
             left_val = node.left.accept(self)
             right_val = node.right.accept(self)
-            if right_val < 0:
-                raise EvaluationError("Від'ємний степінь не підтримується")
+            # if right_val < 0:
+            #     raise EvaluationError("Від'ємний степінь не підтримується")
+            if left_val == 0 and right_val == 0:
+                raise EvaluationError("0^0 є невизначеним значенням.")
+
             return left_val ** right_val
 
         elif node.operator == '=':

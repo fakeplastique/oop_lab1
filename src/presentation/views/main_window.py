@@ -9,7 +9,7 @@ from PySide6.QtWidgets import (
     QStatusBar,
     QDialog,
 )
-from PySide6.QtGui import QAction, QKeySequence
+from PySide6.QtGui import QAction, QCloseEvent, QKeySequence
 from PySide6.QtCore import Qt, QThread, Signal
 
 from src.application.services.table_service import TableService
@@ -230,9 +230,30 @@ class MainWindow(QMainWindow):
         self.setWindowTitle("Python Sheets - Нова таблиця")
         self._update_statusbar("Створено нову таблицю")
 
+
+    def closeEvent(self, event: QCloseEvent) -> None:
+        reply = QMessageBox.question(
+            self,
+            "Підтвердження",
+            "Ви впевнені, що хочете закрити поточний файл? Рекомендується зберегти зміни перед закриттям.",
+            QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No
+        )
+        if reply != QMessageBox.StandardButton.Yes:
+            return 
+        return super().closeEvent(event)
+
+
     def _on_open(self) -> None:
         """Обробляє відкриття файлу."""
         # Показуємо діалог вибору типу сховища
+        reply = QMessageBox.question(
+            self,
+            "Підтвердження",
+            "Ви впевнені, що хочете закрити поточний файл? Рекомендується зберегти зміни перед закриттям.",
+            QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No
+        )
+        if reply != QMessageBox.StandardButton.Yes:
+            return 
         storage_dialog = StorageChoiceDialog(self, "відкрити")
         if storage_dialog.exec() != QDialog.DialogCode.Accepted:
             return
